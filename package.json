@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "GREP_PATTERN='@smoke' playwright test",
+    "test:regression": "GREP_PATTERN='@regression' playwright test",
+    "test:all": "GREP_PATTERN='@all' playwright test",
+    "test:smoke:headed": "GREP_PATTERN='@smoke' playwright test --headed",
+    "test:regression:headed": "GREP_PATTERN='@regression' playwright test --headed",
+    "test:all:headed": "GREP_PATTERN='@all' playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

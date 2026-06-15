@@ -14,6 +14,9 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
+  // Test tag grep patterns for filtering
+  grep: process.env.GREP_PATTERN ? new RegExp(process.env.GREP_PATTERN) : undefined,
+
   projects: [
     // 2. SETUP PROJECT: Runs without trying to load a state
     { 
