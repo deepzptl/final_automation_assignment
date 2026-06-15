@@ -1,0 +1,24 @@
+# Dependency directories
+node_modules/
+
+# Environment Variables
+.env
+.env.local
+.env.*
+
+# Playwright Test Reports & Traces
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Saved Authentication States (Highly Sensitive)
+.auth/
+playwright/.auth/
+*-state.json
+
+# IDE / OS Files
+.DS_Store
+.vscode/
+.idea/
+*.log

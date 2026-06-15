@@ -1,0 +1,26 @@
+{
+  "flight": {
+    "fromSearch": "ahme",
+    "fromSelect": "AMD - Sardar Vallabhbhai Patel International AirportAhmedabad, India",
+    "toSearch": "toronto",
+    "toSelect": "YYZ - Lester B. Pearson International AirportToronto, Canada",
+    "date": "Thursday, June 18th, 2026",
+    "passenger": { "firstName": "John", "middleName": "Moris", "lastName": "Doe", "dob": "2004-11-14" },
+    "contact": { "address": "123 Main St, Anytown, USA", "zip": "382531", "city": "Anytown", "phone": "9512345678" }
+  },
+  "hotel": {
+    "location": "hyderabad",
+    "locationSelect": "HYD, Hyderabad, India",
+    "checkIn": "Thursday, June 18th,",
+    "checkOut": "Friday, June 26th,",
+    "guest": { "firstName": "John", "lastName": "Smith", "age": "35" }
+  },
+  "trip": {
+    "fromSearch": "amd",
+    "fromSelect": "AMD -Sardar Vallabhbhai Patel International AirportAhmedabad, India",
+    "toSearch": "hydera",
+    "toSelect": "HYD -Rajiv Gandhi International AirportHyderabad, India",
+    "startDate": "Thursday, June 18th,",
+    "endDate": "Wednesday, July 1st,"
+  }
+}
