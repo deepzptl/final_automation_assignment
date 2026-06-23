@@ -11,13 +11,10 @@ export class HotelSearchPage extends BasePage {
     await this.page.waitForTimeout(1500);
     
     await this.page.getByRole('button', { name: 'showing selected date' }).click();
-    await this.page.waitForTimeout(1500);
-    
-    await this.page.getByRole('button', { name: data.checkIn }).dispatchEvent('click');
-    await this.page.waitForTimeout(500);
-    
-    await this.page.getByRole('button', { name: data.checkOut }).dispatchEvent('click');
-    await this.page.waitForTimeout(1500);
+    const checkInDays = data.checkInDaysFromToday ?? 15;
+    const stayLengthDays = data.stayLengthDays ?? 1;
+    await this.selectCalendarDate(checkInDays);
+    await this.selectCalendarDate(checkInDays + stayLengthDays);
     
     await this.page.keyboard.press('Escape');
     await this.page.waitForTimeout(1000);

@@ -3,35 +3,34 @@ import { BasePage } from '../base/BasePage';
 
 export class HotelListingPage extends BasePage {
   async openHotelDetail(): Promise<Page> {
-    await this.waitForDom();
-    await this.page.waitForTimeout(5000);
-    
-    // Try multiple selectors to find the hotel
-    let hotelLocator = this.page.locator('.flex.w-full.flex-col.items-start.justify-start')
-      .first()
-      .getByText('Minerva Grand Secundrabad')
+    await this.page.waitForURL(/\/hotel\/listing-stay\//, { timeout: 30_000 });
+
+    // Hotel inventory is loaded asynchronously. Select an actual visible result
+    // instead of a fixed hotel name, because availability changes by date.
+    const firstHotelTitle = this.page.locator('.nc-PropertyCardH h2')
+      .filter({ visible: true })
       .first();
-    
-    // Fallback: Try finding by any text match
-    if (!(await hotelLocator.isVisible({ timeout: 3000 }).catch(() => false))) {
-      hotelLocator = this.page.getByText('Minerva Grand Secundrabad').first();
-    }
-    
-    // Last resort: Try to find any clickable hotel card
-    if (!(await hotelLocator.isVisible({ timeout: 3000 }).catch(() => false))) {
-      const hotelCards = this.page.locator('[role="button"]').or(this.page.locator('div[class*="cursor-pointer"]'));
-      if (await hotelCards.count() > 0) {
-        hotelLocator = hotelCards.first();
-      } else {
-        throw new Error('No hotel listing found');
-      }
-    }
-    
-    const [hotelPage] = await Promise.all([
-      this.page.context().waitForEvent('page'),
-      hotelLocator.click({ force: true, timeout: 5000 })
+    await firstHotelTitle.waitFor({ state: 'visible', timeout: 45_000 });
+
+    const isHotelDetailUrl = (url: URL) =>
+      /\/hotel\/(?!listing-stay\/|search(?:\/|$))/.test(url.pathname);
+
+    const destinationPromise = Promise.race([
+      this.page.context().waitForEvent('page', { timeout: 30_000 })
+        .then(hotelPage => ({ hotelPage, openedPopup: true })),
+      this.page.waitForURL(isHotelDetailUrl, { timeout: 30_000 })
+        .then(() => ({ hotelPage: this.page, openedPopup: false })),
     ]);
-    await hotelPage.waitForTimeout(2000);
+
+    // One click only: a duplicate click can open the wrong application page.
+    await firstHotelTitle.click();
+    const { hotelPage, openedPopup } = await destinationPromise;
+
+    if (openedPopup) {
+      await hotelPage.waitForURL(isHotelDetailUrl, { timeout: 30_000 });
+    }
+
+    await hotelPage.waitForLoadState('domcontentloaded');
     return hotelPage;
   }
 }

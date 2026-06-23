@@ -1,6 +1,7 @@
 import { test } from '../fixtures/customFixture';
 import testData from '../data/testData.json';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 test('@smoke @regression @all End-to-End Flight Booking Flow', async ({ homePage, flightSearchPage, flightListingPage, flightTripSummaryPage, flightSeatMapPage, flightTravellerInfoPage }) => {
   await homePage.navigateToFlights();
   
