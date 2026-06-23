@@ -13,7 +13,6 @@ on:
       test_tag:
         description: 'Test tag to run'
         required: false
-        default: 'all'
         type: choice
         options:
           - 'all'
@@ -30,7 +29,8 @@ jobs:
       BASE_URL: ${{ secrets.BASE_URL }}
       USER_EMAIL: ${{ secrets.USER_EMAIL }}
       USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-      GREP_PATTERN: ${{ github.event.inputs.test_tag || 'all' }}
+      # Leaving the fallback empty ensures setup files are not filtered out by default
+      GREP_PATTERN: ${{ github.event.inputs.test_tag || '' }}
 
     steps:
     - name: Checkout repository
