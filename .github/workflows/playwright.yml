@@ -8,6 +8,17 @@ on:
   schedule:
     # Runs at 04:30 UTC every day, which is 10:00 AM IST
     - cron: '30 4 * * *'
+  workflow_dispatch:
+    inputs:
+      test_tag:
+        description: 'Test tag to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'smoke'
+          - 'regression'
 
 jobs:
   test:
@@ -19,6 +30,7 @@ jobs:
       BASE_URL: ${{ secrets.BASE_URL }}
       USER_EMAIL: ${{ secrets.USER_EMAIL }}
       USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+      GREP_PATTERN: ${{ github.event.inputs.test_tag || 'all' }}
 
     steps:
     - name: Checkout repository
